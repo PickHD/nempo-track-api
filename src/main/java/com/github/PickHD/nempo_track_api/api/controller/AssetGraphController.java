@@ -62,8 +62,8 @@ public class AssetGraphController {
     }
 
     @MutationMapping
-    public Asset addAsset(@Argument AssetRequest req) {
-        return assetService.createAsset(req);
+    public Asset addAsset(@Argument AssetRequest input) {
+        return assetService.createAsset(input);
     }
 
     @MutationMapping

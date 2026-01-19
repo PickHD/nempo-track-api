@@ -1,5 +1,8 @@
 server:
   port: ${APP_PORT:8080}
+  authentication:
+    username: ${SUPERADMIN_USERNAME}
+    password: ${SUPERADMIN_PASSWORD}
 
 spring:
   application:

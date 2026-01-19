@@ -1,5 +1,6 @@
 package com.github.PickHD.nempo_track_api.config;
 
+import com.github.PickHD.nempo_track_api.config.properties.AppConfig;
 import com.github.PickHD.nempo_track_api.domain.model.Asset;
 import com.github.PickHD.nempo_track_api.domain.model.Team;
 import com.github.PickHD.nempo_track_api.domain.model.User;
@@ -25,15 +26,19 @@ public class DatabaseSeeder {
     CommandLineRunner initDatabase(AssetRepository assetRepo,
                                    TeamRepository teamRepo,
                                    UserRepository userRepo,
-                                   PasswordEncoder passwordEncoder) {
+                                   PasswordEncoder passwordEncoder,
+                                   AppConfig appConfig) {
         return args -> {
+            String adminUsername = appConfig.getUsername();
+            String adminPassword = appConfig.getPassword();
+
             // check if user with role superadmin already created or not
-            if (userRepo.findByUsername("admin").isEmpty()) {
+            if (userRepo.findByUsername(adminUsername).isEmpty()) {
                 System.out.println("[Seeder] Creating default Admin User...");
 
                 User admin = new User();
-                admin.setUsername("admin");
-                admin.setPassword(passwordEncoder.encode("admin123"));
+                admin.setUsername(adminUsername);
+                admin.setPassword(passwordEncoder.encode(adminPassword));
                 admin.setRole("SUPERADMIN");
 
                 userRepo.save(admin);
