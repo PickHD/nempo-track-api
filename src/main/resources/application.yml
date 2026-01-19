@@ -12,8 +12,7 @@ spring:
       username: ${NEO4J_USERNAME}
       password: ${NEO4J_PASSWORD}
 
-  # GraphQL
-  graphql:
-    graphiql:
-      enabled: true
-      path: /graphiql
+  # JWT Configuration
+  jwt:
+    secret: ${JWT_SECRET}
+    expiration: ${JWT_EXPIRATION}
