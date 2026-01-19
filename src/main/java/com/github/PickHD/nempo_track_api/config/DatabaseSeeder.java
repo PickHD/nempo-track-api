@@ -2,19 +2,44 @@ package com.github.PickHD.nempo_track_api.config;
 
 import com.github.PickHD.nempo_track_api.domain.model.Asset;
 import com.github.PickHD.nempo_track_api.domain.model.Team;
+import com.github.PickHD.nempo_track_api.domain.model.User;
 import com.github.PickHD.nempo_track_api.domain.repository.AssetRepository;
 import com.github.PickHD.nempo_track_api.domain.repository.TeamRepository;
+import com.github.PickHD.nempo_track_api.domain.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 //@Profile("dev")
 public class DatabaseSeeder {
     @Bean
-    CommandLineRunner initDatabase(AssetRepository assetRepo, TeamRepository teamRepo) {
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
+    @Bean
+    CommandLineRunner initDatabase(AssetRepository assetRepo,
+                                   TeamRepository teamRepo,
+                                   UserRepository userRepo,
+                                   PasswordEncoder passwordEncoder) {
         return args -> {
+            // check if user with role superadmin already created or not
+            if (userRepo.findByUsername("admin").isEmpty()) {
+                System.out.println("[Seeder] Creating default Admin User...");
+
+                User admin = new User();
+                admin.setUsername("admin");
+                admin.setPassword(passwordEncoder.encode("admin123"));
+                admin.setRole("SUPERADMIN");
+
+                userRepo.save(admin);
+                System.out.println("[Seeder] Admin Created..");
+            }
+
             System.out.println("Start initialize Neo4j data..");
 
             assetRepo.deleteAll();
