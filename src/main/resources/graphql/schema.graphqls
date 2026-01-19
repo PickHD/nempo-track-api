@@ -1,0 +1,46 @@
+type Team {
+    id: ID!
+    name: String!
+    email: String
+}
+
+type Asset {
+    id: ID!
+    name: String!
+    type: String! # SERVER, SERVICE, DATABASE, etc..
+    status: String
+
+    # Graph Relationships
+    owner: Team
+    dependencies: [Asset] #Recursive relationship
+}
+
+type AssetResponse {
+    content: [Asset]
+    totalPages: Int
+    totalElements: Int
+    currentPage: Int
+}
+
+input AssetRequest {
+    name: String!
+    type: String!
+    status: String
+    teamId: ID
+}
+
+type Query {
+    assets(page: Int, size: Int): AssetResponse
+
+    assetById(id: ID!): Asset
+
+    assetsByType(type: String!): [Asset]
+
+    impactAnalysis(assetId: ID!, depthLimit: Int, statusFilter: String, nameFilter: String): [Asset]
+}
+
+type Mutation {
+    addAsset(input: AssetRequest!): Asset
+
+    linkAssets(sourceId:ID!, targetId: ID!): Asset
+}

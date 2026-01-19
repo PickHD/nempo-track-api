@@ -17,8 +17,3 @@ spring:
     graphiql:
       enabled: true
       path: /graphiql
-
-  # Flyway (Database Migration)
-  flyway:
-    enabled: true
-    baseline-on-migrate: true
