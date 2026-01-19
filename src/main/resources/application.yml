@@ -1,0 +1,24 @@
+server:
+  port: ${APP_PORT:8080}
+
+spring:
+  application:
+    name: nempotrack
+
+  # Database Connection
+  neo4j:
+    uri: ${NEO4J_URI}
+    authentication:
+      username: ${NEO4J_USERNAME}
+      password: ${NEO4J_PASSWORD}
+
+  # GraphQL
+  graphql:
+    graphiql:
+      enabled: true
+      path: /graphiql
+
+  # Flyway (Database Migration)
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
