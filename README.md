@@ -17,15 +17,19 @@ A graph-based asset tracking system built with Spring Boot, Neo4j, and GraphQL f
 
 ```
 src/main/java/com/github/PickHD/nempo_track_api/
-├── api/                    # Controllers, DTOs, Mappers
-│   ├── controller/         # AssetGraphController, AuthController
-│   ├── dto/               # Request/Response objects
+├── api/                   # Controllers, DTOs, Mappers
+│   ├── controller/        # Handling Request & Responses
+│   ├── dto/               # Converting Request/Response objects
 │   └── mapper/            # Entity-DTO converters
 ├── config/                # Security, Database, Transaction configs
+│   └── properties/        # Env property configs
 ├── domain/                # Business layer
-│   ├── model/             # Asset, Team, User entities
+│   ├── model/             # Entities
 │   └── repository/        # Neo4j repositories
-└── security/              # JWT filter, handlers, services
+├── exception/             # Global Exception Handler, Custom Error Exception
+├── security/              # JWT filter, handlers
+├── service/               # Logic interface
+│   └── impl/              # Logic implementation
 ```
 
 ## Quick Start
