@@ -1,46 +1,65 @@
 type Team {
-    id: ID!
-    name: String!
-    email: String
+  id: ID!
+  name: String!
+  email: String
 }
 
 type Asset {
-    id: ID!
-    name: String!
-    type: String! # SERVER, SERVICE, DATABASE, etc..
-    status: String
+  id: ID!
+  name: String!
+  type: String! # SERVER, SERVICE, DATABASE, etc..
+  status: String
 
-    # Graph Relationships
-    owner: Team
-    dependencies: [Asset] #Recursive relationship
+  # Graph Relationships
+  owner: Team
+  dependencies: [Asset] #Recursive relationship
 }
 
 type AssetResponse {
-    content: [Asset]
-    totalPages: Int
-    totalElements: Int
-    currentPage: Int
+  content: [Asset]
+  totalPages: Int
+  totalElements: Int
+  currentPage: Int
 }
 
 input AssetRequest {
-    name: String!
-    type: String!
-    status: String
-    teamId: ID
+  name: String!
+  type: String!
+  status: String
+  teamId: ID
+}
+
+type TeamResponse {
+  content: [Team]
+  totalPages: Int
+  totalElements: Int
+  currentPage: Int
+}
+
+input TeamRequest {
+  name: String!
+  email: String
 }
 
 type Query {
-    assets(page: Int, size: Int): AssetResponse
+  assets(page: Int, size: Int): AssetResponse
+  assetById(id: ID!): Asset
+  assetsByType(type: String!): [Asset]
+  impactAnalysis(
+    assetId: ID!
+    depthLimit: Int
+    statusFilter: String
+    nameFilter: String
+  ): [Asset]
 
-    assetById(id: ID!): Asset
-
-    assetsByType(type: String!): [Asset]
-
-    impactAnalysis(assetId: ID!, depthLimit: Int, statusFilter: String, nameFilter: String): [Asset]
+  teams(page: Int, size: Int): TeamResponse
+  teamById(id: ID!): Team
 }
 
 type Mutation {
-    addAsset(input: AssetRequest!): Asset
+  addAsset(input: AssetRequest!): Asset
+  linkAssets(sourceId: ID!, targetId: ID!): Asset
 
-    linkAssets(sourceId:ID!, targetId: ID!): Asset
+  addTeam(input: TeamRequest!): Team
+  removeTeam(id: ID!): ID
 }
