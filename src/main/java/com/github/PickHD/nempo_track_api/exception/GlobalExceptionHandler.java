@@ -29,6 +29,15 @@ public class GlobalExceptionHandler extends DataFetcherExceptionResolverAdapter 
                     .build();
         }
 
+        if (ex instanceof DataConflictedException) {
+            return GraphqlErrorBuilder.newError()
+                    .errorType(ErrorType.BAD_REQUEST)
+                    .message(ex.getMessage())
+                    .path(env.getExecutionStepInfo().getPath())
+                    .location(env.getField().getSourceLocation())
+                    .build();
+        }
+
         return GraphqlErrorBuilder.newError()
                 .errorType(ErrorType.INTERNAL_ERROR)
                 .message("Internal Server Error: " + ex.getMessage())
