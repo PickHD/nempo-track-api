@@ -10,12 +10,10 @@ import com.github.PickHD.nempo_track_api.domain.repository.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-//@Profile("dev")
 public class DatabaseSeeder {
     @Bean
     public PasswordEncoder passwordEncoder() {
